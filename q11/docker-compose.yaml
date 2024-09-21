@@ -1,0 +1,25 @@
+services:
+  app:
+    image: node:20
+    container_name: testExpress
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_URI: mongodb://mongo:27017/testDB
+    command: "npm install && node index.js"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    container_name: testMongoDB
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
